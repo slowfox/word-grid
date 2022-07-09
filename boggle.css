@@ -1,0 +1,65 @@
+div.main-content {
+    width:80%;
+    margin: auto;
+    margin-top:40px;
+    padding:20px;
+    font-weight:normal;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    border-style:solid;
+    border-color:#900;
+    border-width:4px;
+    border-radius:12px;
+
+}
+
+select.game-size {
+    font-size:24px;
+    vertical-align:middle;
+}
+
+
+span.grid-button {
+   font-weight: bold;
+   padding: 6px;
+   border-radius:3px;
+   cursor:pointer;
+   background-color: #ccc;
+   color: #000;
+   font-size: 18px;
+   width:100px !important;
+   vertical-align:middle;
+}
+
+span.grid-button.hot {
+    background-color:#900;
+    color:#fff;
+}
+
+
+div.grid-container {
+    padding:20px;
+    font-size:32px;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+
+table.game-grid{
+    border-style:solid;
+    border-width:4px;
+    border-color:#111;
+    border-collapse: collapse;
+}
+
+td.game-cell {
+    padding: 10px;
+    width: 2em;
+    line-height: 2em;
+    text-align:center;
+    vertical-align: middle;
+    font-weight: bold;
+    border-color: #111;
+    border-style: solid;
+    border-width:2px;
+}

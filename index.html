@@ -5,13 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boggle</title>
+
+    <link rel="stylesheet" type="text/css" href="boggle.css" />
 </head>
 <body>
     <div class="main-content">
-        <h1>Boggle</h1>
+        <h1>Ralph's n-Dimensional Boggle Solver</h1>
         <hr>
         <div class="form-controls">
+            <p>This page uses vanilla JavaScript to generate, and solve, arbitrary size <i>nxn</i> Boggle grids,
+                for grid sizes up to n=10.</p>
 
+            <select title="game-size" name="game-size" id="game-size" class="game-size">
+                <option value="4"></option>
+                <option value="4">4 x 4</option>
+                <option value="5">5 x 5</option>
+                <option value="6">6 x 6</option>
+                <option value="7">7 x 7</option>
+                <option value="8">8 x 8</option>
+                <option value="9">9 x 9</option>
+                <option value="10">10 x 10</option>
+            </select>
+            <span onclick="buildGrid();" class="grid-button hot">Build Grid</span>
+            <span onclick="clearGrid();" class="grid-button">Reset</span>
         </div>
         <div class="grid-container">
 
@@ -19,5 +35,4 @@
     </div>
 </body>
     <script src="boggle.js"></script>
-    <script src="valid_words.js"></script>
 </html>
