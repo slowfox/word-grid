@@ -13,6 +13,7 @@ div.main-content {
 
 }
 
+
 select.game-size {
     font-size:24px;
     vertical-align:middle;
@@ -30,6 +31,7 @@ span.grid-button {
    width:100px !important;
    vertical-align:middle;
 }
+
 
 span.grid-button.hot {
     background-color:#900;
@@ -51,6 +53,7 @@ table.game-grid{
     border-color:#111;
     border-collapse: collapse;
 }
+
 
 td.game-cell {
     padding: 10px;
