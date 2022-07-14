@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boggle</title>
+    <title>Word-Grid</title>
 
-    <link rel="stylesheet" type="text/css" href="boggle.css" />
+    <link rel="stylesheet" type="text/css" href="word_grid.css" />
 </head>
 <body>
     <div class="main-content">
-        <h1>Ralph's n-Dimensional Boggle Solver</h1>
+        <h1>Ralph's n-Dimensional Word-Grid Solver</h1>
         <hr>
         <div class="form-controls">
-            <p>This page uses vanilla JavaScript to generate, and solve, arbitrary size <i>nxn</i> Boggle grids,
-                for grid sizes up to n=10.</p>
+            <p>This page uses <a href="word_gridgrid.js" target="_blank">vanilla JavaScript</a> to generate and solve arbitrary size <i>nxn</i> Word-Grids,
+                for grids up to size n=10.</p>
 
             <select title="game-size" name="game-size" id="game-size" class="game-size">
                 <option value="4"></option>
@@ -32,7 +32,13 @@
         <div class="grid-container">
 
         </div>
+        <div class="solution-container">
+
+        </div>
     </div>
 </body>
-    <script src="boggle.js"></script>
+    <script src="word_grid.js"></script>
+    <script>
+        const wordTrie = buildTrie();
+    </script>
 </html>
