@@ -74,3 +74,12 @@ td.game-cell {
     border-style: solid;
     border-width:2px;
 }
+
+h3.solution-header {
+   color:#900;
+}
+
+div.execution-time b {
+   font-weight:bold;
+   color:#900;
+}

@@ -13,8 +13,8 @@
         <h1>Ralph's n-Dimensional Word-Grid Solver</h1>
         <hr>
         <div class="form-controls">
-            <p>This page uses <a href="word_gridgrid.js" target="_blank">vanilla JavaScript</a> to generate and solve arbitrary size <i>nxn</i> Word-Grids,
-                for grids up to size n=10.</p>
+            <p>This page uses <a href="word_grid.js" target="_blank">vanilla JavaScript</a> to generate and solve Word-Grids of arbitrary size.</p>
+            <p>Note that calculation time increases significantly for <i>nxn</i> grids where n > 30.</p>
 
             <select title="game-size" name="game-size" id="game-size" class="game-size">
                 <option value="4"></option>
@@ -25,20 +25,32 @@
                 <option value="8">8 x 8</option>
                 <option value="9">9 x 9</option>
                 <option value="10">10 x 10</option>
+                <option value="20">20 x 20</option>
+                <option value="30">30 x 30</option>
+                <option value="40">40 x 40</option>
+                <option value="50">50 x 50</option>
+                <option value="CUSTOM">Custom</option>
             </select>
             <span onclick="buildGrid();" class="grid-button hot">Build Grid</span>
             <span onclick="clearGrid();" class="grid-button">Reset</span>
         </div>
         <div class="grid-container">
 
+
         </div>
+        <h3 class="solution-header">
+        </h3>
         <div class="solution-container">
 
+        </div>
+        <div class="execution-time">
         </div>
     </div>
 </body>
     <script src="word_grid.js"></script>
+    <script src="dictionary.js"></script>
     <script>
-        const wordTrie = buildTrie();
+        const validWords = getWordList();
+        const wordTrie = buildTrie(validWords);
     </script>
 </html>
