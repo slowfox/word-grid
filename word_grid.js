@@ -39,7 +39,7 @@ function getGridDimension() {
         if (selectValue === "CUSTOM") {
             let customSize = prompt("Please specify the grid dimension as a single number:");
             try {
-                gridDimension = parseInt(customSize);
+                gridDimension = parseInt(customSize) || 4;
             }
             catch {
                 gridDimension = 4;
