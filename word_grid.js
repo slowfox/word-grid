@@ -141,7 +141,7 @@ function paintGrid(grid) {
             tableText += "   <tr class=\"game-row\">\n";
 
             for (let x=0; x<grid.length; x++) {
-                tableText += "      <td class=\"game-cell\">";
+                tableText += "      <td class=\"game-cell\" id=\"x" + x + "y" + y + "\">";
                 tableText += grid[y][x].letter;
                 tableText += "</td>\n";
             }
