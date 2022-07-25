@@ -51,7 +51,7 @@ div.solution-container {
     padding:20px;
     column-gap: 40px;
     row-gap: 8px;
-    grid-template-columns: auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
 }
 
 
@@ -76,9 +76,21 @@ td.game-cell {
     text-transform:capitalize;
 }
 
+td.game-cell.lit,
+div.solution a.lit{
+   background-color: #900;
+   color: #fff;
+}
+
+
 h3.solution-header {
    color:#900;
 }
+
+div.solution a {
+   cursor:pointer;
+}
+
 
 div.execution-time b {
    font-weight:bold;

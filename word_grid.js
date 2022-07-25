@@ -6,16 +6,105 @@ const findResult = {
 Object.freeze(findResult);
 
 
+class ContribTile {
+   constructor(xCoOrdinate, yCoOrdinate) {
+         this.x = xCoOrdinate;
+         this.y = yCoOrdinate;
+   }
+}
+
+class Soln {
+   constructor(word, map) {
+      this.word = word;
+      this.map = map;
+   }
+}
+
+
+class GridCell {
+
+    constructor(letter) {
+        this.letter = letter;
+        this.searchDepth = 0;
+    }
+}
+
+
+class BoggleTrie {
+
+    constructor(letterStream) {
+        this.valid_word = false;
+        this.children = [];
+        this.letter = letterStream.slice(0,1);
+        if (letterStream.length > 1) {
+            this.children = new BoggleTrie(letterStream.slice(1));
+        }
+    }
+
+    add(incomingString) {
+        if (incomingString.length > 0) {
+            const leadLetter = incomingString.slice(0,1);
+
+                for (let k=0; k<this.children.length; k++) {
+                    if (this.children[k].letter == leadLetter) {
+                        if (incomingString.length > 1) {
+                            this.children[k].add(incomingString.slice(1));
+                        }
+                        return;
+                    }
+                }
+            
+            const newNode = new BoggleTrie(incomingString.slice(0,1));
+            newNode.add(incomingString.slice(1));
+            if (incomingString.length == 1) {
+                newNode.validWord = true;
+            }
+            this.children.push(newNode);
+
+            return;
+        }
+    }
+
+
+    find(word) {
+
+        let currentNode = this;
+        let tileFound = false;
+        let searchLetter = "";
+        for (let x=0; x<word.length; x++) {
+            searchLetter = word.slice(x, x+1);
+            tileFound = false;
+            for (let y=0; y<currentNode.children.length; y++) {
+                if (currentNode.children[y].letter == searchLetter) {
+                    currentNode = currentNode.children[y];
+                    tileFound = true;
+                    break;
+                }
+            }
+            if (!tileFound) { return findResult.STOP_SEARCH;
+            }
+        }
+        if (currentNode.validWord) { return findResult.VALID_WORD;
+        }
+        else { return findResult.NOT_A_WORD;
+        }
+    }
+
+}
+
+
 function buildGrid() {
 
     try {
         document.body.style.cursor = "progress";
+
         const gridDimension = getGridDimension();
         let letterTiles = getLetters(gridDimension);
         letterTiles = shuffle(letterTiles);
         const grid = generateGridState(gridDimension, letterTiles);
 
         paintGrid(grid);
+
         const startPoint = performance.now();
         const solutions = findWords(grid, wordTrie);
         const executionTimeMs = Math.round(performance.now() - startPoint);
@@ -129,7 +218,6 @@ function generateGridState(gridDimension, letterTiles) {
 }
 
 
-
 function paintGrid(grid) {
     try{
         const gridContainer = document.getElementsByClassName("grid-container")[0];
@@ -162,7 +250,7 @@ function paintGrid(grid) {
 
 
 function paintWords(solutions) {
-    solutions.sort();
+    //solutions.sort();
     
     try {
         document.getElementsByClassName("solution-header")[0].innerHTML = "Solutions";
@@ -174,7 +262,16 @@ function paintWords(solutions) {
         const solutionContainer = document.getElementsByClassName("solution-container")[0];
         let solutionList = "";
         for (s=0; s<solutions.length; s++) {
-            solutionList += "<div class=\"solution\">" + solutions[s] + "</div>";
+            solutionList += "<div class=\"solution\"><a onclick=\"setWordActive(this); lightUp([";
+            for (let c=0; c<solutions[s].map.length; c++) {
+               if (c>0) {
+                  solutionList += ",";
+               }
+               solutionList += "[" + solutions[s].map[c].x;
+               solutionList += "," + solutions[s].map[c].y;
+               solutionList += "]";
+            }
+            solutionList += "]);\">" + solutions[s].word + "</a></div>";
         }
         solutionContainer.innerHTML = solutionList;
     }
@@ -188,7 +285,7 @@ function paintExecutionTime(t, solns) {
     try {
         let longestWord = "";
         for (let w=0; w<solns.length; w++) {
-            if (solns[w].length > longestWord.length) longestWord = solns[w];
+            if (solns[w].word.length > longestWord.length) longestWord = solns[w].word;
         }
 
         const execTimeContainer = document.getElementsByClassName("execution-time")[0];
@@ -222,15 +319,6 @@ function clearGrid() {
 }
 
 
-class GridCell {
-
-    constructor(letter) {
-        this.letter = letter;
-        this.searchDepth = 0;
-    }
-}
-
-
 function clearSearchDepth(grid, depth) {
 
     for (let g=0; g<grid.length; g++) {
@@ -243,68 +331,6 @@ function clearSearchDepth(grid, depth) {
 }
 
 
-class BoggleTrie {
-
-    constructor(letterStream) {
-        this.valid_word = false;
-        this.children = [];
-        this.letter = letterStream.slice(0,1);
-        if (letterStream.length > 1) {
-            this.children = new BoggleTrie(letterStream.slice(1));
-        }
-    }
-
-    add(incomingString) {
-        if (incomingString.length > 0) {
-            const leadLetter = incomingString.slice(0,1);
-
-                for (let k=0; k<this.children.length; k++) {
-                    if (this.children[k].letter == leadLetter) {
-                        if (incomingString.length > 1) {
-                            this.children[k].add(incomingString.slice(1));
-                        }
-                        return;
-                    }
-                }
-            
-            const newNode = new BoggleTrie(incomingString.slice(0,1));
-            newNode.add(incomingString.slice(1));
-            if (incomingString.length == 1) {
-                newNode.validWord = true;
-            }
-            this.children.push(newNode);
-
-            return;
-        }
-    }
-
-
-    find(word) {
-
-        let currentNode = this;
-        let tileFound = false;
-        let searchLetter = "";
-        for (let x=0; x<word.length; x++) {
-            searchLetter = word.slice(x, x+1);
-            tileFound = false;
-            for (let y=0; y<currentNode.children.length; y++) {
-                if (currentNode.children[y].letter == searchLetter) {
-                    currentNode = currentNode.children[y];
-                    tileFound = true;
-                    break;
-                }
-            }
-            if (!tileFound) { return findResult.STOP_SEARCH;
-            }
-        }
-        if (currentNode.validWord) { return findResult.VALID_WORD;
-        }
-        else { return findResult.NOT_A_WORD;
-        }
-    }
-
-}
-
 
 function snake(grid, x, y, depth, prefix, words, solutions) {
 
@@ -314,12 +340,18 @@ function snake(grid, x, y, depth, prefix, words, solutions) {
     const findReturn = words.find(wordStem);
 
     if (findReturn == findResult.STOP_SEARCH) {
+
         clearSearchDepth(grid, depth);
         return;
     }
     else if (findReturn == findResult.VALID_WORD) {
-        if (!solutions.includes(wordStem)) {
-            solutions.push(wordStem);
+
+        if (!alreadyFound(solutions, wordStem)) {
+
+           const contribTiles = getActiveTiles(grid);
+           const soln = new Soln(wordStem, contribTiles);
+           solutions.push(soln);
+
         }
     }
 
@@ -338,6 +370,31 @@ function snake(grid, x, y, depth, prefix, words, solutions) {
     }
     clearSearchDepth(grid, depth);
 
+}
+
+
+function alreadyFound(solutions, word) {
+   for (let q=0; q<solutions.length; q++) {
+      if (solutions[q].word == word) {
+         return true;
+      }
+   }
+   return false;
+}
+
+
+function getActiveTiles(grid) {
+   let activeTiles = [];
+   let activeTile;
+   for (let j=0; j<grid.length; j++) {
+      for (let i=0; i<grid.length; i++) {
+         if (grid[j][i].searchDepth > 0) {
+            activeTile = new ContribTile(i,j);
+            activeTiles.push(activeTile);
+         }
+      }
+   }
+   return activeTiles;
 }
 
 
@@ -362,4 +419,42 @@ function buildTrie(words) {
         if (words[w].length >= 3) rootNode.add(words[w]);
     }
     return rootNode;
+}
+
+
+function setWordActive(w) {
+   const listedWords = document.getElementsByClassName("lit");
+   for (let g=0; g<listedWords.length; g++) {
+      listedWords[g].classList.remove("lit");
+   }
+   w.classList.add("lit");
+}
+
+
+function lightUp(tiles) {
+   const allTiles = document.getElementsByClassName("game-cell");
+   let tileID;
+   let targetTile;
+
+   for (let g=0; g<allTiles.length; g++) {
+      try {
+         allTiles[g].classList.remove("lit");
+      }
+      catch {
+         console.log("Unable to remove active class from grid");
+      }
+   }
+
+   for (let t=0; t<tiles.length; t++) {
+      tileID = "x" + tiles[t][0] + "y" + tiles[t][1];
+      try
+      {
+         targetTile = document.getElementById(tileID);
+         targetTile.classList.add("lit");
+      }
+      catch {
+         console.log("Unable to light up tile (" +
+               tiles[t][0] + "," + tiles[t][1] + ")");
+      }
+   }
 }
