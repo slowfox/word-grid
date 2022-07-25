@@ -73,6 +73,7 @@ td.game-cell {
     border-color: #111;
     border-style: solid;
     border-width:2px;
+    text-transform:capitalize;
 }
 
 h3.solution-header {
