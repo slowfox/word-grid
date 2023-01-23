@@ -253,7 +253,7 @@ function paintWords(solutions) {
     //solutions.sort();
     
     try {
-        document.getElementsByClassName("solution-header")[0].innerHTML = "Solutions";
+        document.getElementsByClassName("solution-header")[0].innerHTML = "Solutions (Click to highlight)";
     }
     catch {
         console.log("Could not find solution header");
